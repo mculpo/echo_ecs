@@ -1,6 +1,9 @@
 #pragma once
 #include <Core.h>
+#include <Component.h>
 namespace ecs {
+	class Component;
+
 	class Entity
 	{
 	public:
@@ -21,13 +24,19 @@ namespace ecs {
 
 		void SetStatic(bool p_Static);
 		bool IsStatic() const;
+
+
+		// Operador de igualdade para comparar duas entidades pelo ID
+		bool operator==(const Entity& p_Other) const;
+
 	private:
 		uint32_t m_ID;
-		std::bitset<MAX_COMPONENTS> m_components;
 		String m_name;
 		String m_tag;
 		bool m_isActive;
 		bool m_isStatic;
 	};
+
+
 }
 

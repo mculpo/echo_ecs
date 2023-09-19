@@ -22,4 +22,8 @@ namespace ecs {
 	{
 		return m_ID;
 	}
+	bool Component::operator==(const Component& p_Other) const
+	{
+		return m_ID == p_Other.GetID();
+	}
 }

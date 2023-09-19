@@ -3,7 +3,6 @@ namespace ecs {
 	Entity::Entity(uint32_t p_ID, const String& p_Name, const String& p_Tag) :
 		m_ID(p_ID), m_name(p_Name), m_tag(p_Tag), m_isActive(true), m_isStatic(false)
 	{
-		m_components.reset();
 	}
 
 	Entity::~Entity()
@@ -43,5 +42,9 @@ namespace ecs {
 	bool Entity::IsStatic() const
 	{
 		return m_isStatic;
+	}
+	bool Entity::operator==(const Entity& p_Other) const
+	{
+		return m_ID == p_Other.GetID();
 	}
 }
