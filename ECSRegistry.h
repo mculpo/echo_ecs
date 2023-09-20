@@ -12,14 +12,14 @@ namespace ecs {
 		ECSRegistry();
 		~ECSRegistry();
 
-		void RegisterEntity(Entity* p_Entity);
-		void RemoveEntity(Entity* p_Entity);
+		void RegisterEntity(std::shared_ptr<Entity> p_Entity);
+		void RemoveEntity(std::shared_ptr<Entity> p_Entity);
 
-		void RegisterComponentToEntity(Entity* p_Entity, Component* p_Component);
-		void RemoveComponentFromEntity(Entity* p_Entity, Component* p_Component);
+		void RegisterComponentToEntity(std::shared_ptr<Entity> p_Entity, std::shared_ptr<Component> p_Component);
+		void RemoveComponentFromEntity(std::shared_ptr<Entity> p_Entity, std::shared_ptr<Component> p_Component);
 
-		void RegisterSystem(System* p_System);
-		void RemoveSystem(System* p_System);
+		void RegisterSystem(std::shared_ptr<System> p_System);
+		void RemoveSystem(std::shared_ptr<System> p_System);
 
 		void UpdateSystem(float deltaTime);
 
@@ -33,15 +33,15 @@ namespace ecs {
 
 
 		template<typename ComponentType>
-		inline std::vector<Entity*> GetEntitiesWithComponent()
+		inline std::vector<std::shared_ptr<Entity>> GetEntitiesWithComponent()
 		{
 			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-			std::vector<Entity*> entities;
+			std::vector<std::shared_ptr<Entity>> entities;
 
 			for (auto entity : m_entities) {
 				auto it = m_components.find(entity->GetID());
-				for (auto component : it->second) {
-					if (dynamic_cast<ComponentType*>(component) != nullptr) {
+				for (auto componentPair : it->second) {
+					if (auto component = std::dynamic_pointer_cast<ComponentType>(componentPair)) {
 						entities.push_back(entity);
 						break;
 					}
@@ -52,14 +52,14 @@ namespace ecs {
 		};
 
 		template<typename ComponentType>
-		inline ComponentType* GetComponentForEntity(Entity* entity)
+		inline std::shared_ptr<ComponentType> GetComponentForEntity(std::shared_ptr<Entity> entity)
 		{
 			auto it = m_components.find(entity->GetID());
 
 			if (it != m_components.end()) {
-				for (Component* component : it->second) {
-					if (dynamic_cast<ComponentType*>(component) != nullptr) {
-						return static_cast<ComponentType*>(component);
+				for (auto component : it->second) {
+					if (auto derivedComponent = std::dynamic_pointer_cast<ComponentType>(component)) {
+						return derivedComponent;
 					}
 				}
 			}
@@ -68,15 +68,15 @@ namespace ecs {
 		};
 
 		template<typename ComponentType>
-		inline std::vector<ComponentType*> GetAllComponent()
+		inline std::vector<std::shared_ptr<ComponentType>> GetAllComponent()
 		{
-			std::vector<ComponentType*> components;
+			std::vector<std::shared_ptr<ComponentType>> components;
 
 			for (auto entity : m_entities) {
 				auto it = m_components.find(entity->GetID());
 				for (auto component : it->second) {
-					if (dynamic_cast<ComponentType*>(component) != nullptr) {
-						components.push_back(static_cast<ComponentType*>(component));
+					if (auto derivedComponent = std::dynamic_pointer_cast<ComponentType>(component)) {
+						components.push_back(derivedComponent);
 						break;
 					}
 				}
@@ -86,9 +86,9 @@ namespace ecs {
 		};
 
 	private:
-		std::vector<Entity*> m_entities;
-		std::unordered_map <uint32_t, std::vector<Component*>> m_components;
-		std::vector<System*> m_systems;
+		std::vector<std::shared_ptr<Entity>> m_entities;
+		std::unordered_map <uint32_t, std::vector<std::shared_ptr<Component>>> m_components;
+		std::vector<std::shared_ptr<System>> m_systems;
 
 		uint32_t m_indexEntities;
 		uint32_t m_indexComponents;

@@ -11,7 +11,7 @@ namespace ecs {
 		~Entity();
 
 		virtual void Initialize() {};
-		virtual void Execute() {};
+		virtual void Execute() { std::cout << m_name << std::endl; };
 		virtual void Release() {};
 
 		uint32_t GetID() const;

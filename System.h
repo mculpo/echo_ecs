@@ -7,6 +7,7 @@ namespace ecs{
 	{
 	public:
 		System(ECSRegistry* p_ECSRegistry, uint32_t p_ID, uint32_t p_Priority);
+		System(std::shared_ptr<ECSRegistry> p_ECSRegistry, uint32_t p_ID, uint32_t p_Priority);
 		~System();
 
 		virtual void Initialize() = 0;
@@ -23,7 +24,7 @@ namespace ecs{
 	protected:
 		uint32_t m_ID;
 		uint32_t m_priority;
-		ECSRegistry* m_registry;
+		std::shared_ptr<ECSRegistry> m_registry;
 	};
 }
 
