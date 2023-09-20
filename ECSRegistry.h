@@ -20,19 +20,8 @@ namespace ecs {
 
 		void RegisterSystem(System* p_System);
 		void RemoveSystem(System* p_System);
+
 		void UpdateSystem(float deltaTime);
-
-		template<typename ComponentType>
-		bool HasComponent(Entity& entity);
-
-		template <typename... ComponentTypes>
-		std::vector<Entity> GetEntitiesWithComponents();
-
-		template<typename ComponentType, typename... Rest>
-		bool CheckEntityForComponents(Entity& entity, ComponentType, Rest... rest);
-
-		template<typename ComponentType>
-		ComponentType* GetComponentForEntity(Entity* entity);
 
 		uint32_t NextIndexEntity();
 		uint32_t NextIndexComponent();
@@ -41,6 +30,60 @@ namespace ecs {
 		uint32_t CurrentIndexEntity() const;
 		uint32_t CurrentIndexComponent() const;
 		uint32_t CurrentIndexSystem() const;
+
+
+		template<typename ComponentType>
+		inline std::vector<Entity*> GetEntitiesWithComponent()
+		{
+			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
+			std::vector<Entity*> entities;
+
+			for (auto entity : m_entities) {
+				auto it = m_components.find(entity->GetID());
+				for (auto component : it->second) {
+					if (dynamic_cast<ComponentType*>(component) != nullptr) {
+						entities.push_back(entity);
+						break;
+					}
+				}
+			}
+
+			return entities;
+		};
+
+		template<typename ComponentType>
+		inline ComponentType* GetComponentForEntity(Entity* entity)
+		{
+			auto it = m_components.find(entity->GetID());
+
+			if (it != m_components.end()) {
+				for (Component* component : it->second) {
+					if (dynamic_cast<ComponentType*>(component) != nullptr) {
+						return static_cast<ComponentType*>(component);
+					}
+				}
+			}
+
+			return nullptr; // Componente não encontrado para a entidade
+		};
+
+		template<typename ComponentType>
+		inline std::vector<ComponentType*> GetAllComponent()
+		{
+			std::vector<ComponentType*> components;
+
+			for (auto entity : m_entities) {
+				auto it = m_components.find(entity->GetID());
+				for (auto component : it->second) {
+					if (dynamic_cast<ComponentType*>(component) != nullptr) {
+						components.push_back(static_cast<ComponentType*>(component));
+						break;
+					}
+				}
+			}
+
+			return components;
+		};
 
 	private:
 		std::vector<Entity*> m_entities;

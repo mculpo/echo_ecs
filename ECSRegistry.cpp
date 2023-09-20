@@ -54,19 +54,19 @@ namespace ecs {
 
 	void ECSRegistry::UpdateSystem(float deltaTime)
 	{
+		std::cout << "Start Initialize loop"  << std::endl;
 		for (auto& system : m_systems) {
 			system->Initialize();
 		}
-
+		std::cout << "Start Update loop" << std::endl;
 		for (auto& system : m_systems) {
 			system->Update(deltaTime);
 		}
+		std::cout << "Start Cleanup loop" << std::endl;
 		for (auto& system : m_systems) {
 			system->Cleanup();
 		}
-
 	}
-
 	uint32_t ECSRegistry::NextIndexEntity()
 	{
 		return ++m_indexEntities;
@@ -95,57 +95,5 @@ namespace ecs {
 	uint32_t ECSRegistry::CurrentIndexSystem() const
 	{
 		return m_indexSystems;
-	}
-
-	template<typename ComponentType>
-	inline bool ECSRegistry::HasComponent(Entity& entity)
-	{
-		std::type_index type = typeid(ComponentType);
-		auto it = m_components.find(entity);
-		if (it != m_components.end()) {
-			for (Component* component : it->second) {
-				if(dynamic_cast<ComponentType*>(component) != nullptr)
-					return true;
-			}
-		}
-		return false;
-	}
-
-	template<typename ...ComponentTypes>
-	inline std::vector<Entity> ECSRegistry::GetEntitiesWithComponents()
-	{
-		std::vector<Entity> entities;
-
-		for (const auto& entityComponents : m_components) {
-			if (CheckEntityForComponents(entityComponents.first, ComponentTypes...)) {
-				entities.push_back(entityComponents.first);
-			}
-		}
-		return entities;
-	}
-
-	template<typename ComponentType, typename ...Rest>
-	inline bool ECSRegistry::CheckEntityForComponents(Entity& entity, ComponentType, Rest ...rest)
-	{
-		if (!HasComponent<ComponentType>(entity)) {
-			return false;
-		}
-		return !CheckEntityForComponents(entity, rest...);
-	}
-	template<typename ComponentType>
-	ComponentType* ECSRegistry::GetComponentForEntity(Entity* entity)
-	{
-		std::type_index type = typeid(ComponentType);
-		auto it = m_components.find(entity->GetID());
-
-		if (it != m_components.end()) {
-			for (Component* component : it->second) {
-				if (std::type_index(typeid(*component)) == type) {
-					return dynamic_cast<ComponentType*>(component);
-				}
-			}
-		}
-
-		return nullptr; // Componente não encontrado para a entidade
 	}
 }
