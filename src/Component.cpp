@@ -1,4 +1,4 @@
-#include "Component.h"
+#include <header/Component.h>
 namespace ecs {
 	Component::Component(uint32_t p_ID) :m_ID(p_ID), m_isActive(true)
 	{

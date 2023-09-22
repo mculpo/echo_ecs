@@ -1,6 +1,6 @@
 #pragma once
-#include <Core.h>
-#include <ECSRegistry.h>
+#include <header/Core.h>
+#include <header/ECSRegistry.h>
 namespace ecs{
 	class ECSRegistry;
 	class System
@@ -10,9 +10,9 @@ namespace ecs{
 		System(std::shared_ptr<ECSRegistry> p_ECSRegistry, uint32_t p_ID, uint32_t p_Priority);
 		~System();
 
-		virtual void Initialize() = 0;
-		virtual void Update(float deltaTime) = 0;
-		virtual void Cleanup() = 0;
+		virtual void Initialize() {};
+		virtual void Update(float deltaTime) {};
+		virtual void Cleanup() {};
 
 		uint32_t GetID() const;
 

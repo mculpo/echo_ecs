@@ -1,5 +1,5 @@
 #pragma once
-#include <Core.h>
+#include <header/Core.h>
 namespace ecs {
     class Component {
     public:

@@ -1,7 +1,7 @@
-#include <Core.h>
-#include <ECSRegistry.h>
-#include <RenderSystem.h>
-#include <RendererComponent.h>
+#include <header/Core.h>
+#include <header/ECSRegistry.h>
+#include <test/RenderSystem.h>
+#include <test/RendererComponent.h>
 
 int main() {
 	std::shared_ptr<ecs::ECSRegistry> registry = std::make_shared<ecs::ECSRegistry>();
@@ -27,7 +27,9 @@ int main() {
 
 	registry->RegisterSystem(system1);
 
+	registry->InitializeSystem();
 	registry->UpdateSystem(0);
+	registry->CleanUpSystem();
 	
 	return 0;
 }

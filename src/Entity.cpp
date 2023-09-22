@@ -1,4 +1,4 @@
-#include "Entity.h"
+#include <header/Entity.h>
 namespace ecs {
 	Entity::Entity(uint32_t p_ID, const String& p_Name, const String& p_Tag) :
 		m_ID(p_ID), m_name(p_Name), m_tag(p_Tag), m_isActive(true), m_isStatic(false)

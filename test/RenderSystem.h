@@ -1,7 +1,8 @@
 #pragma once
-#include <ECSRegistry.h>
-#include <RendererComponent.h>
-#include <Entity.h>
+#include <header/ECSRegistry.h>
+#include <test/RendererComponent.h>
+#include <header/Entity.h>
+
 class RendererSystem : public ecs::System {
 public:
 	RendererSystem(ecs::ECSRegistry* p_Registry, uint32_t p_ID, uint32_t p_Priority) : System(p_Registry, p_ID, p_Priority) {}

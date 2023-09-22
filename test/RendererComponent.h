@@ -1,4 +1,4 @@
-#include <Component.h>
+#include <header/Component.h>
 #pragma once
 class RendererComponent : public ecs::Component {
 public:

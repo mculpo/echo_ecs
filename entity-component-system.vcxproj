@@ -131,20 +131,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Component.cpp" />
-    <ClCompile Include="ECSRegistry.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="System.cpp" />
+    <ClCompile Include="test\Application.cpp" />
+    <ClCompile Include="src\Component.cpp" />
+    <ClCompile Include="src\ECSRegistry.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
+    <ClCompile Include="src\System.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Component.h" />
-    <ClInclude Include="Core.h" />
-    <ClInclude Include="ECSRegistry.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="RendererComponent.h" />
-    <ClInclude Include="RenderSystem.h" />
-    <ClInclude Include="System.h" />
+    <ClInclude Include="header\Component.h" />
+    <ClInclude Include="header\Core.h" />
+    <ClInclude Include="header\ECSRegistry.h" />
+    <ClInclude Include="header\Entity.h" />
+    <ClInclude Include="test\RendererComponent.h" />
+    <ClInclude Include="test\RenderSystem.h" />
+    <ClInclude Include="header\System.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

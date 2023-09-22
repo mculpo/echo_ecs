@@ -1,4 +1,4 @@
-#include "ECSRegistry.h"
+#include <header/ECSRegistry.h>
 namespace ecs {
 	ECSRegistry::ECSRegistry()
 	{
@@ -23,7 +23,7 @@ namespace ecs {
 		}
 	}
 
-	void ECSRegistry::RegisterComponentToEntity(std::shared_ptr < Entity> p_Entity, std::shared_ptr < Component> p_Component)
+	void ECSRegistry::RegisterComponentToEntity(std::shared_ptr<Entity> p_Entity, std::shared_ptr<Component> p_Component)
 	{
 		auto it_entity = std::find(m_entities.begin(), m_entities.end(), p_Entity);
 		if (it_entity != m_entities.end()) {
@@ -34,7 +34,7 @@ namespace ecs {
 		}
 	}
 
-	void ECSRegistry::RemoveComponentFromEntity(std::shared_ptr < Entity> p_Entity, std::shared_ptr < Component> p_Component)
+	void ECSRegistry::RemoveComponentFromEntity(std::shared_ptr<Entity> p_Entity, std::shared_ptr<Component> p_Component)
 	{
 		auto it_entity = m_components.find(p_Entity->GetID());
 		if (it_entity != m_components.end()) {
@@ -45,32 +45,40 @@ namespace ecs {
 		}
 	}
 
-	void ECSRegistry::RegisterSystem(std::shared_ptr < System> p_System)
+	void ECSRegistry::RegisterSystem(std::shared_ptr <System> p_System)
 	{
 		m_systems.push_back(p_System);
 	}
 
-	void ECSRegistry::RemoveSystem(std::shared_ptr < System> p_System)
+	void ECSRegistry::RemoveSystem(std::shared_ptr <System> p_System)
 	{
-		auto it_system = std::find(m_systems.begin(), m_systems.end(), p_System);
+		auto it_system = std::find(m_systems.cbegin(), m_systems.cend(), p_System);
 		if (it_system != m_systems.end()) {
 			m_systems.erase(it_system);
 		}
 	}
 
-	void ECSRegistry::UpdateSystem(float deltaTime)
+	void ECSRegistry::InitializeSystem()
 	{
-		std::cout << "Start Initialize loop"  << std::endl;
+		std::cout << "Start Initialize" << std::endl;
 		for (auto& system : m_systems) {
 			system->Initialize();
 		}
 		std::cout << std::endl;
-		std::cout << "Start Update loop" << std::endl;
+	}
+
+	void ECSRegistry::UpdateSystem(float deltaTime)
+	{
+		std::cout << "Start Update" << std::endl;
 		for (auto& system : m_systems) {
 			system->Update(deltaTime);
 		}
 		std::cout << std::endl;
-		std::cout << "Start Cleanup loop" << std::endl;
+	}
+
+	void ECSRegistry::CleanUpSystem()
+	{
+		std::cout << "Start Cleanup" << std::endl;
 		for (auto& system : m_systems) {
 			system->Cleanup();
 		}

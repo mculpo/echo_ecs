@@ -1,8 +1,8 @@
 #pragma once
-#include <Core.h>
-#include <Entity.h>
-#include <Component.h>
-#include <System.h>
+#include <header/Core.h>
+#include <header/Entity.h>
+#include <header/Component.h>
+#include <header/System.h>
 
 namespace ecs {
 	class System;
@@ -21,7 +21,9 @@ namespace ecs {
 		void RegisterSystem(std::shared_ptr<System> p_System);
 		void RemoveSystem(std::shared_ptr<System> p_System);
 
-		void UpdateSystem(float deltaTime);
+		virtual void InitializeSystem();
+		virtual void UpdateSystem(float deltaTime);
+		virtual void CleanUpSystem();
 
 		uint32_t NextIndexEntity();
 		uint32_t NextIndexComponent();
@@ -54,6 +56,7 @@ namespace ecs {
 		template<typename ComponentType>
 		inline std::shared_ptr<ComponentType> GetComponentForEntity(std::shared_ptr<Entity> entity)
 		{
+			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 			auto it = m_components.find(entity->GetID());
 
 			if (it != m_components.end()) {
@@ -70,6 +73,7 @@ namespace ecs {
 		template<typename ComponentType>
 		inline std::vector<std::shared_ptr<ComponentType>> GetAllComponent()
 		{
+			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 			std::vector<std::shared_ptr<ComponentType>> components;
 
 			for (auto entity : m_entities) {

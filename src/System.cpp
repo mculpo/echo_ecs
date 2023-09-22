@@ -1,4 +1,4 @@
-#include "System.h"
+#include <header/System.h>
 namespace ecs {
 	System::System(ECSRegistry* p_ECSRegistry, uint32_t p_ID, uint32_t p_Priority) : m_registry(p_ECSRegistry), m_ID(p_ID), m_priority(p_Priority)
 	{
