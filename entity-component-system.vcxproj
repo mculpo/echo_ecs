@@ -142,6 +142,7 @@
     <ClInclude Include="header\Core.h" />
     <ClInclude Include="header\ECSRegistry.h" />
     <ClInclude Include="header\Entity.h" />
+    <ClInclude Include="test\GameObject.h" />
     <ClInclude Include="test\RendererComponent.h" />
     <ClInclude Include="test\RenderSystem.h" />
     <ClInclude Include="header\System.h" />

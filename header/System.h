@@ -10,9 +10,9 @@ namespace ecs{
 		System(std::shared_ptr<ECSRegistry> p_ECSRegistry, uint32_t p_ID, uint32_t p_Priority);
 		~System();
 
-		virtual void Initialize() {};
-		virtual void Update(float deltaTime) {};
-		virtual void Cleanup() {};
+		virtual void Initialize() = 0;
+		virtual void Update(float deltaTime) = 0;
+		virtual void Cleanup() = 0;
 
 		uint32_t GetID() const;
 

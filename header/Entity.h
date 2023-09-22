@@ -10,9 +10,9 @@ namespace ecs {
 		Entity(uint32_t p_ID, const String& p_Name, const String& p_Tag);
 		~Entity();
 
-		virtual void Initialize() {};
-		virtual void Execute() { std::cout << m_name << std::endl; };
-		virtual void Release() {};
+		virtual void Initialize() = 0;
+		virtual void Execute() = 0;
+		virtual void Release() = 0;
 
 		uint32_t GetID() const;
 		const String& GetName() const;
@@ -31,6 +31,7 @@ namespace ecs {
 
 	private:
 		uint32_t m_ID;
+	protected:
 		String m_name;
 		String m_tag;
 		bool m_isActive;

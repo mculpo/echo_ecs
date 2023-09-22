@@ -56,6 +56,9 @@
     <ClInclude Include="test\RendererComponent.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="test\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE" />
