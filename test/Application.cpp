@@ -1,35 +1,51 @@
 #include <header/Core.h>
 #include <header/ECSRegistry.h>
-#include <test/RenderSystem.h>
-#include <test/RendererComponent.h>
+#include <test/TransformSystem.h>
+#include <test/TransformComponent.h>
 #include <test/GameObject.h>
+#include <header/Timer.h>
 
 int main() {
+
+	// Obtém o número máximo de threads suportadas pelo hardware
+	int numCores = std::thread::hardware_concurrency();
+
+	if (numCores != 0) {
+		std::cout << "Numero de nucleos do processador: " << numCores << std::endl;
+	}
+	else {
+		std::cout << "Não foi possível determinar o numero de ncleos do processador." << std::endl;
+	}
+
+
 	std::shared_ptr<ecs::ECSRegistry> registry = std::make_shared<ecs::ECSRegistry>();
 
-	std::shared_ptr<GameObject> entity1 = 
-		std::make_shared<GameObject>(registry->NextIndexEntity(), "Entity1", "Entity1");
-	std::shared_ptr<RendererComponent> component1 = 
-		std::make_shared<RendererComponent>(registry->NextIndexComponent(), "my_component_1");
+	Timer::ClockBegin();
 
-	std::shared_ptr<GameObject> entity2 =
-		std::make_shared<GameObject>(registry->NextIndexEntity(), "Entity2", "Entity2");
-	std::shared_ptr<RendererComponent> component2 = 
-		std::make_shared<RendererComponent>(registry->NextIndexComponent(), "my_component_2");
+	for (int i = 0; i < 10000; i++) {
+		std::shared_ptr<GameObject> entity =
+			std::make_shared<GameObject>(registry->NextIndexEntity(), "Entity", "Entity");
+		std::shared_ptr<TransformComponent> component =
+			std::make_shared<TransformComponent>(registry->NextIndexComponent(), "my_component_");
 
-	std::shared_ptr<RendererSystem> system1 = 
-		std::make_shared<RendererSystem>(registry, registry->NextIndexSystem(), 0);
+		registry->RegisterEntity(entity);
+		registry->RegisterComponentToEntity(entity, component);
+	}
 
-	registry->RegisterEntity(entity1);
-	registry->RegisterComponentToEntity(entity1, component1);
+	// Registra o tempo de término
+	Timer::ClockEnd();
 
-	registry->RegisterEntity(entity2);
-	registry->RegisterComponentToEntity(entity2, component2);
+	// Exibe o tempo decorrido
+	std::cout << "Tempo decorrido para criar: " << Timer::GetMillisecondsDuration() << " milissegundos" << std::endl;
 
-	registry->RegisterSystem(system1);
+	std::shared_ptr<TransformSystem> transformSystem = std::make_shared<TransformSystem>(registry, registry->NextIndexSystem(), 0);
+
+	registry->RegisterSystem(transformSystem);
 
 	registry->InitializeSystem();
-	registry->UpdateSystem(0);
+	for (int i = 0; i < 100; i++) {
+		registry->UpdateSystem(0);
+	}
 	registry->CleanUpSystem();
 	
 	return 0;

@@ -50,13 +50,16 @@
     <ClInclude Include="header\ECSRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\RenderSystem.h">
+    <ClInclude Include="test\TransformSystem.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="test\RendererComponent.h">
+    <ClInclude Include="test\TransformComponent.h">
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

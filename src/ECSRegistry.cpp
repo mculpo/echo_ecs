@@ -60,25 +60,21 @@ namespace ecs {
 
 	void ECSRegistry::InitializeSystem()
 	{
-		std::cout << "Start Initialize" << std::endl;
 		for (auto& system : m_systems) {
 			system->Initialize();
 		}
-		std::cout << std::endl;
 	}
 
 	void ECSRegistry::UpdateSystem(float deltaTime)
 	{
-		std::cout << "Start Update" << std::endl;
+		
 		for (auto& system : m_systems) {
 			system->Update(deltaTime);
 		}
-		std::cout << std::endl;
 	}
 
 	void ECSRegistry::CleanUpSystem()
 	{
-		std::cout << "Start Cleanup" << std::endl;
 		for (auto& system : m_systems) {
 			system->Cleanup();
 		}
