@@ -17,16 +17,13 @@ int main() {
 		std::cout << "Não foi possível determinar o numero de ncleos do processador." << std::endl;
 	}
 
-
-	std::shared_ptr<ecs::ECSRegistry> registry = std::make_shared<ecs::ECSRegistry>();
+	ecs::ECSRegistry* registry = new ecs::ECSRegistry();
 
 	Timer::ClockBegin();
 
-	for (int i = 0; i < 10000; i++) {
-		std::shared_ptr<GameObject> entity =
-			std::make_shared<GameObject>(registry->NextIndexEntity(), "Entity", "Entity");
-		std::shared_ptr<TransformComponent> component =
-			std::make_shared<TransformComponent>(registry->NextIndexComponent(), "my_component_");
+	for (int i = 0; i < 1000; i++) {
+		GameObject* entity = new GameObject(i, "Entity", "Entity");
+		TransformComponent* component = new TransformComponent(i, "my_component_");
 
 		registry->RegisterEntity(entity);
 		registry->RegisterComponentToEntity(entity, component);
@@ -36,17 +33,20 @@ int main() {
 	Timer::ClockEnd();
 
 	// Exibe o tempo decorrido
-	std::cout << "Tempo decorrido para criar: " << Timer::GetMillisecondsDuration() << " milissegundos" << std::endl;
+	std::cout << "Tempo decorrido para criar: " << Timer::GetSecondsDuration() << " segundos" << std::endl;
 
-	std::shared_ptr<TransformSystem> transformSystem = std::make_shared<TransformSystem>(registry, registry->NextIndexSystem(), 0);
-
-	registry->RegisterSystem(transformSystem);
-
+	registry->RegisterSystem(new TransformSystem(registry, 1, 0));
+	Timer::ClockBegin();
 	registry->InitializeSystem();
-	for (int i = 0; i < 100; i++) {
-		registry->UpdateSystem(0);
-	}
+	registry->UpdateSystem(0);
+	// Registra o tempo de término
+	Timer::ClockEnd();
+
+	// Exibe o tempo decorrido
+	std::cout << "Tempo decorrido do UPDATE: " << Timer::GetSecondsDuration() << " segundos" << std::endl;
 	registry->CleanUpSystem();
 	
+	delete registry;
+	std::cin.get();
 	return 0;
 }
