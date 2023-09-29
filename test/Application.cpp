@@ -5,48 +5,63 @@
 #include <test/GameObject.h>
 #include <header/Timer.h>
 
-int main() {
+#define total_obj 1000
+#define tick_loop 10
 
-	// Obtém o número máximo de threads suportadas pelo hardware
-	int numCores = std::thread::hardware_concurrency();
-
-	if (numCores != 0) {
-		std::cout << "Numero de nucleos do processador: " << numCores << std::endl;
-	}
-	else {
-		std::cout << "Não foi possível determinar o numero de ncleos do processador." << std::endl;
-	}
-
+void NonReorganizeMemory() {
 	ecs::ECSRegistry* registry = new ecs::ECSRegistry();
 
-	Timer::ClockBegin();
-
-	for (int i = 0; i < 1000; i++) {
-		GameObject* entity = new GameObject(i, "Entity", "Entity");
-		TransformComponent* component = new TransformComponent(i, "my_component_");
+	for (int i = 0; i < total_obj; i++) {
+		GameObject* entity = new GameObject(i, "Entity_" + std::to_string(i), "Entity_" + std::to_string(i));
+		TransformComponent* component = new TransformComponent(i, "my_component_" + std::to_string(i));
 
 		registry->RegisterEntity(entity);
 		registry->RegisterComponentToEntity(entity, component);
 	}
 
-	// Registra o tempo de término
-	Timer::ClockEnd();
+	registry->RegisterSystem(new TransformSystem(registry, 1, 0));
+	Timer::ClockBegin();
 
+	registry->InitializeSystem();
+	for (int i = 0; i < tick_loop; i++)
+		registry->UpdateSystem(0);
+
+	Timer::ClockEnd();
 	// Exibe o tempo decorrido
-	std::cout << "Tempo decorrido para criar: " << Timer::GetSecondsDuration() << " segundos" << std::endl;
+	std::cout << "time to run a systems methods " << Timer::GetMillisecondsDuration() << " milliseconds" << std::endl;
+	delete registry;
+}
+void ReorganizeMemory() {
+	ecs::ECSRegistry* registry = new ecs::ECSRegistry();
+	Timer::ClockBegin();
+
+	for (int i = 0; i < total_obj; i++) {
+		GameObject* entity = new GameObject(i, "Entity_" + std::to_string(i), "Entity_" + std::to_string(i));
+		TransformComponent* component = new TransformComponent(i, "my_component_" + std::to_string(i));
+
+		registry->RegisterEntity(entity);
+		registry->RegisterComponentToEntity(entity, component);
+	}
+	Timer::ClockEnd();
+	registry->ReorganizeMemoryLayout();
 
 	registry->RegisterSystem(new TransformSystem(registry, 1, 0));
 	Timer::ClockBegin();
-	registry->InitializeSystem();
-	registry->UpdateSystem(0);
-	// Registra o tempo de término
-	Timer::ClockEnd();
 
+	registry->InitializeSystem();
+	for (int i = 0; i < tick_loop; i++)
+		registry->UpdateSystem(0);
+
+	Timer::ClockEnd();
 	// Exibe o tempo decorrido
-	std::cout << "Tempo decorrido do UPDATE: " << Timer::GetSecondsDuration() << " segundos" << std::endl;
-	registry->CleanUpSystem();
-	
+	std::cout << "time to run a systems methods " << Timer::GetMillisecondsDuration() << " milliseconds" << std::endl;
+
 	delete registry;
+}
+
+int main() {
+	NonReorganizeMemory();
+	ReorganizeMemory();
 	std::cin.get();
 	return 0;
 }

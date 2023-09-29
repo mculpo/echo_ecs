@@ -11,8 +11,8 @@ public:
     }
 
     static double GetMillisecondsDuration() {
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-        return static_cast<double>(duration.count()) + (end_time - start_time - duration).count() / 1000000.0; // Converte a parte fracionária para milissegundos
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+        return static_cast<double>(duration.count()) / 1000.0; // Converte para milissegundos com precisão de até 8 casas decimais
     }
 
     static double GetSecondsDuration() {

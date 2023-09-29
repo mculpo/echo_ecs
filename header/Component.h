@@ -8,7 +8,6 @@ namespace ecs {
 
         virtual void Initialize() = 0;
         virtual void Execute() = 0;
-        virtual void Release() = 0;
 
         void Activate();
         void Deactivate();

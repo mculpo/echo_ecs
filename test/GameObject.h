@@ -13,7 +13,4 @@ public:
 	virtual void Execute() override {
 
 	}
-	virtual void Release() override {
-
-	}
 };

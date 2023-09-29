@@ -12,7 +12,6 @@ namespace ecs {
 
 		virtual void Initialize() = 0;
 		virtual void Execute() = 0;
-		virtual void Release() = 0;
 
 		uint32_t GetID() const;
 		const String& GetName() const;

@@ -36,17 +36,6 @@ namespace ecs {
 		}
 	}
 
-	void ECSRegistry::RegisterComponentToEntity(Entity* p_Entity, Component* p_Component)
-	{
-		auto it_entity = std::find(m_entities.begin(), m_entities.end(), p_Entity);
-		if (it_entity != m_entities.end()) {
-			m_components[(*it_entity)->GetID()].push_back(p_Component);
-		}
-		else {
-			std::cout << "Entity not found : " << p_Entity->GetID() << std::endl;
-		}
-	}
-
 	void ECSRegistry::RemoveComponentFromEntity(Entity* p_Entity, Component* p_Component)
 	{
 		auto it_entity = m_components.find(p_Entity->GetID());
@@ -71,6 +60,36 @@ namespace ecs {
 		}
 	}
 
+	void ECSRegistry::ReorganizeMemoryLayout()
+	{
+		// Reorganize o vetor de entidades para ser contíguo na memória
+		std::vector<Entity*> compactEntities;
+		compactEntities.reserve(m_entities.size());
+		for (Entity* entity : m_entities) {
+			compactEntities.push_back(entity);
+		}
+		m_entities = compactEntities;
+
+		// Reorganize o vetor de sistemas para ser contíguo na memória
+		std::vector<System*> compactSystems;
+		compactSystems.reserve(m_systems.size());
+		for (System* system : m_systems) {
+			compactSystems.push_back(system);
+		}
+		m_systems = compactSystems;
+
+		// Reorganize os vetores de componentes para serem contíguos na memória
+		for (auto& componentPair : m_components) {
+			std::vector<Component*>& components = componentPair.second;
+			std::vector<Component*> compactComponents;
+			compactComponents.reserve(components.size());
+			for (Component* component : components) {
+				compactComponents.push_back(component);
+			}
+			components = compactComponents;
+		}
+	}
+
 	void ECSRegistry::InitializeSystem()
 	{
 		for (auto& system : m_systems) {
@@ -86,10 +105,4 @@ namespace ecs {
 		}
 	}
 
-	void ECSRegistry::CleanUpSystem()
-	{
-		for (auto& system : m_systems) {
-			system->Cleanup();
-		}
-	}
 }

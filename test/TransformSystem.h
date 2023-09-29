@@ -10,6 +10,7 @@ public:
 		for (auto registry : m_transformComponents) {
 			delete registry;
 		}
+		m_transformComponents.clear();
 	};
 
 	virtual void Initialize() override
@@ -24,9 +25,6 @@ public:
 		for (auto& renderer : m_transformComponents) {
 			renderer->Execute();
 		}
-	}
-	virtual void Cleanup() override
-	{
 	}
 private:
 	std::vector<TransformComponent*> m_transformComponents;
