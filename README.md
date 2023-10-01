@@ -1,6 +1,6 @@
 # Entity Component System (ECS) Library (Simple and Accessible)
 
-This is a straightforward and accessible C++ Entity Component System (ECS) library that provides an uncomplicated way to manage game entities, components, and systems. ECS is a widely-used design pattern in game development that simplifies the organization of game objects' data and logic, making it ideal for both beginners and experienced developers.
+This is a straightforward and accessible C++ Entity Component System (ECS) library that provides an uncomplicated way to manage game entities, components, and systems. ECS is a widely-used design pattern in game development that simplifies the organization of game objects' data and logic, making it ideal for both beginners and experienced developers, it ECS don't use Data Oriented.
 
 ## Contents
 
@@ -59,8 +59,9 @@ To create an entity, follow these steps:
 #include "ECSRegistry.h"
 
 ecs::ECSRegistry registry;
-std::shared_ptr<ecs::Entity> entity = std::make_shared<ecs::Entity>();
+ecs::Entity* entity = new ecs::Entity();
 registry.RegisterEntity(entity);
+
 ```
 ### Attaching Components
 
@@ -71,10 +72,11 @@ To attach a component to an entity, follow these steps:
 #include "YourComponent.h" // Replace with your component class header
 
 ecs::ECSRegistry registry;
-std::shared_ptr<ecs::Entity> entity = std::make_shared<ecs::Entity>();
-std::shared_ptr<YourComponent> component = std::make_shared<YourComponent>();
+ecs::Entity* entity = new ecs::Entity();
+YourComponent* component = new YourComponent();
 registry.RegisterEntity(entity);
-registry.RegisterComponentToEntity(entity, component)
+registry.RegisterComponentToEntity(entity, component);
+
 ```
 
 ### Registering Systems
@@ -86,8 +88,9 @@ To register a system, follow these steps:
 #include "YourSystem.h" // Replace with your system class header
 
 ecs::ECSRegistry registry;
-std::shared_ptr<YourSystem> system = std::make_shared<YourSystem>();
+YourSystem* system = new YourSystem();
 registry.RegisterSystem(system);
+
 ```
 
 ### Using ECSRegistry Methods
@@ -95,16 +98,18 @@ registry.RegisterSystem(system);
 Here are some examples of how to use methods provided by ECSRegistry:
 
 ```cpp
+
 ecs::ECSRegistry registry;
 
 // Get all entities with a HealthComponent
-std::vector<std::shared_ptr<HealthComponent>> entitiesWithHealth = registry.GetEntitiesWithComponent<HealthComponent>();
+std::vector<HealthComponent*> entitiesWithHealth = registry.GetEntitiesWithComponent<HealthComponent>();
 
 // Get the WeaponComponent for a specific player entity
-std::shared_ptr<WeaponComponent> weaponComponent = registry.GetComponentForEntity<WeaponComponent>(playerEntity);
+WeaponComponent* weaponComponent = registry.GetComponentForEntity<WeaponComponent>(playerEntity);
 
 // Get all components of a specific type
-std::vector<std::shared_ptr<RendererComponent>> allComponents = registry.GetAllComponent<RendererComponent>();
+std::vector<RendererComponent*> allComponents = registry.GetAllComponent<RendererComponent>();
+
 ```
 
 ### License
