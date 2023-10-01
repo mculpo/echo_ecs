@@ -27,13 +27,19 @@ In ECS, entities, components, and systems play distinct roles in managing game d
 
 An entity is a fundamental object in the ECS architecture. It is essentially a container for components, representing a game object. Entities are lightweight and typically consist of an identifier and a collection of attached components.
 
+All your entity class must inherit the ECS Entity 
+
 ### Component
 
 A component represents a specific aspect or attribute of an entity. Components are designed to be small, reusable, and self-contained, focusing on a single piece of functionality or data. For example, you might have components for graphics, physics, or behavior.
 
+All your components class must inherit the ECS Component 
+
 ### System
 
 A system is responsible for processing entities and their associated components. Systems encapsulate the logic that operates on entities and their components. Each system typically focuses on a specific aspect of the game, such as rendering, collision detection, or AI behavior.
+
+All your systems class must inherit the ECS System 
 
 ## ECSRegistry
 
