@@ -60,7 +60,7 @@ namespace ecs {
 		};
 
 		template<typename ComponentType>
-		std::shared_ptr<ComponentType> GetComponentForEntity(Entity* entity)
+		ComponentType* GetComponentForEntity(Entity* entity)
 		{
 			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 			auto it = m_components.find(entity->GetID());
