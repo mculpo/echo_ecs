@@ -15,7 +15,7 @@ public:
 
 	virtual void Initialize() override
 	{
-		auto _RendererComponents = m_registry->GetAllComponent<TransformComponent>();
+		auto _RendererComponents = m_registry->GetAllComponents<TransformComponent>();
 		for (auto& renderer : _RendererComponents) {
 			m_transformComponents.push_back(renderer);
 		}

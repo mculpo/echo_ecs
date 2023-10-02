@@ -29,6 +29,9 @@ namespace ecs {
 		void RegisterComponentToEntity(Entity* p_Entity, ComponentType* p_Component) {
 			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 
+			Component* _component = dynamic_cast<Component*>(p_Component);
+			_component->SetEntityID(p_Entity->GetID());
+
 			size_t componentType = typeid(ComponentType).hash_code();
 
 			// Verifica se o vetor de componentes desse tipo já existe
@@ -41,57 +44,49 @@ namespace ecs {
 		}
 
 		template<typename ComponentType>
-		std::vector<Entity*> GetEntitiesWithComponent()
-		{
-			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-			std::vector<Entity*> entities;
-
-			for (auto entity : m_entities) {
-				auto it = m_components.find(entity->GetID());
-				for (auto componentPair : it->second) {
-					if (auto component = dynamic_cast<ComponentType*>(componentPair)) {
-						entities.push_back(entity);
-						break;
-					}
-				}
-			}
-
-			return entities;
-		};
-
-		template<typename ComponentType>
 		ComponentType* GetComponentForEntity(Entity* entity)
 		{
 			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-			auto it = m_components.find(entity->GetID());
+
+			size_t componentType = typeid(ComponentType).hash_code();
+			auto it = m_components.find(componentType);
 
 			if (it != m_components.end()) {
 				for (auto component : it->second) {
-					if (auto derivedComponent = dynamic_cast<ComponentType*>(component)) {
-						return derivedComponent;
+					if (component->GetEntityID() == entity->GetID()) {
+						return dynamic_cast<ComponentType*>(component);
 					}
 				}
 			}
 
-			return nullptr; // Componente não encontrado para a entidade
-		};
+			// Componente não encontrado para a entidade
+			return nullptr;
+		}
+
 
 		template<typename ComponentType>
-		std::vector<ComponentType*> GetAllComponent()
+		std::vector<ComponentType*> GetAllComponents()
 		{
 			static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
-			std::vector<ComponentType*> components;
 
-			for (const auto& pair : m_components) {
-				for (Component* component : pair.second) {
-					if (auto derivedComponent = dynamic_cast<ComponentType*>(component)) {
-						components.push_back(derivedComponent);
+			size_t componentType = typeid(ComponentType).hash_code();
+			auto it = m_components.find(componentType);
+
+			if (it != m_components.end()) {
+				std::vector<ComponentType*> result;
+				for (Component* component : it->second) {
+					ComponentType* castedComponent = dynamic_cast<ComponentType*>(component);
+					if (castedComponent) {
+						result.push_back(castedComponent);
 					}
 				}
+				return result;
 			}
 
-			return components;
-		};
+			// Se nenhum componente do tipo for encontrado, retorne um vetor vazio.
+			return std::vector<ComponentType*>();
+		}
+
 
 		template <typename ComponentType>
 		std::vector<ComponentType*> GetComponent(Entity* p_Entity) {

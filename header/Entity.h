@@ -16,14 +16,6 @@ namespace ecs {
 		uint32_t GetID() const;
 		const String& GetName() const;
 		const String& GetTag() const;
-		
-		void Activate();
-		void Deactivate();
-		bool IsActive() const;
-
-		void SetStatic(bool p_Static);
-		bool IsStatic() const;
-
 
 		// Operador de igualdade para comparar duas entidades pelo ID
 		bool operator==(const Entity& p_Other) const;
@@ -33,8 +25,6 @@ namespace ecs {
 	protected:
 		String m_name;
 		String m_tag;
-		bool m_isActive;
-		bool m_isStatic;
 	};
 
 

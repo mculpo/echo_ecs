@@ -1,26 +1,21 @@
 #include <header/Component.h>
 namespace ecs {
-	Component::Component(uint32_t p_ID) :m_ID(p_ID), m_isActive(true)
-	{
+	Component::Component(uint32_t p_ID) :m_ID(p_ID){
 	}
 	Component::~Component()
 	{
 	}
-	void Component::Activate()
+	void Component::SetEntityID(uint32_t p_EntityID)
 	{
-		m_isActive = true;
-	}
-	void Component::Deactivate()
-	{
-		m_isActive = false;
-	}
-	bool Component::IsActive() const
-	{
-		return m_isActive;
+		m_EntityID = p_EntityID;
 	}
 	uint32_t Component::GetID() const
 	{
 		return m_ID;
+	}
+	uint32_t Component::GetEntityID() const
+	{
+		return m_EntityID;
 	}
 	bool Component::operator==(const Component& p_Other) const
 	{
