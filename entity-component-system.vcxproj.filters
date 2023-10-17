@@ -30,9 +30,6 @@
     <ClCompile Include="test\Application.cpp">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="src\ECSRegistry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test\RendererComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -65,16 +62,19 @@
     <ClInclude Include="header\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\RendererComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test\PhysicComponent.h">
-      <Filter>Header Files</Filter>
+      <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="test\RendererSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="test\RendererComponent.h">
+      <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\PhysicSystem.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="test\RendererSystem.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ECSRegistryManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

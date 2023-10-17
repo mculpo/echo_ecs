@@ -8,7 +8,7 @@ public:
 	~GameObject() {};
 	// Herdado por meio de System
 	virtual void Initialize() override {
-		std::cout << m_name << std::endl;
+		std::cout << mName << std::endl;
 	}
 	virtual void Execute() override {
 

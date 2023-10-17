@@ -46,7 +46,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -104,7 +104,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -119,7 +120,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>
+      </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -133,7 +135,6 @@
   <ItemGroup>
     <ClCompile Include="test\Application.cpp" />
     <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\ECSRegistry.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\System.cpp" />
     <ClCompile Include="test\RendererComponent.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="header\Component.h" />
     <ClInclude Include="header\Core.h" />
     <ClInclude Include="header\ECSRegistry.h" />
+    <ClInclude Include="header\ECSRegistryManager.h" />
     <ClInclude Include="header\Entity.h" />
     <ClInclude Include="header\Timer.h" />
     <ClInclude Include="test\GameObject.h" />

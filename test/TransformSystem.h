@@ -1,21 +1,18 @@
 #pragma once
-#include <header/ECSRegistry.h>
+#include <header/ECSRegistryManager.h>
 #include <test/TransformComponent.h>
 #include <header/Entity.h>
 #include <header/Timer.h>
 class TransformSystem : public ecs::System {
 public:
-	TransformSystem(ecs::ECSRegistry* p_Registry, uint32_t p_ID, uint32_t p_Priority) : System(p_Registry, p_ID, p_Priority) {}
+	TransformSystem(uint32_t p_ID, uint32_t p_Priority) : System(p_ID, p_Priority) {}
 	~TransformSystem() {
-		for (auto registry : m_transformComponents) {
-			delete registry;
-		}
 		m_transformComponents.clear();
 	};
 
-	virtual void Initialize() override
+	virtual void Initialize(ecs::ECSRegistry& p_Registry) override
 	{
-		auto _RendererComponents = m_registry->GetAllComponents<TransformComponent>();
+		auto _RendererComponents = ecs::GetAllComponents<TransformComponent>(p_Registry.mComponents);
 		for (auto& renderer : _RendererComponents) {
 			m_transformComponents.push_back(renderer);
 		}

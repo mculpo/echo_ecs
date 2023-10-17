@@ -5,17 +5,14 @@
 #include <header/Timer.h>
 class RendererSystem : public ecs::System {
 public:
-	RendererSystem(ecs::ECSRegistry* p_Registry, uint32_t p_ID, uint32_t p_Priority) : System(p_Registry, p_ID, p_Priority) {}
+	RendererSystem(uint32_t p_ID, uint32_t p_Priority) : System( p_ID, p_Priority) {}
 	~RendererSystem() {
-		for (auto registry : m_transformComponents) {
-			delete registry;
-		}
 		m_transformComponents.clear();
 	};
 
-	virtual void Initialize() override
+	virtual void Initialize(ecs::ECSRegistry& p_Registry) override
 	{
-		auto _RendererComponents = m_registry->GetAllComponents<RendererComponent>();
+		auto _RendererComponents = ecs::GetAllComponents<RendererComponent>(p_Registry.mComponents);
 		for (auto& renderer : _RendererComponents) {
 			m_transformComponents.push_back(renderer);
 		}
