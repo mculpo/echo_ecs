@@ -57,16 +57,29 @@ The `ECSRegistry` class is the heart of this ECS library, providing methods for 
 
 To use this ECS library in your project, follow these steps:
 
+### ECSRegistry Content
+
+The code inside to ECSRegistry
+
+```cpp
+	class ECSRegistry {
+	public:
+		std::vector<Entity*> mEntities;
+		std::unordered_map<size_t, std::vector<Component*>> mComponents;
+		std::vector<System*> mSystems;
+	};
+```
+
 ### Creating Entities
 
 To create an entity, follow these steps:
 
 ```cpp
-#include "ECSRegistry.h"
+#include "ecs.hpp"
 
-ecs::ECSRegistry registry;
+ecs::ECSRegistry* registry = new ecs::ECSRegistry;
 ecs::Entity* entity = new ecs::Entity();
-registry.RegisterEntity(entity);
+ecs::RegisterEntity(registry->mEntities, entity);
 
 ```
 ### Attaching Components
@@ -74,15 +87,16 @@ registry.RegisterEntity(entity);
 To attach a component to an entity, follow these steps:
 
 ```cpp
-#include "ECSRegistry.h"
-#include "YourComponent.h" // Replace with your component class header
+#include "ecs.hpp"
+#include "TransformComponent.h" // Replace with your component class header
 
-ecs::ECSRegistry registry;
+ecs::ECSRegistry* registry = new ecs::ECSRegistry;
 ecs::Entity* entity = new ecs::Entity();
-YourComponent* component = new YourComponent();
-registry.RegisterEntity(entity);
-registry.RegisterComponentToEntity(entity, component);
 
+TransformComponent* component = new TransformComponent();
+
+ecs::RegisterEntity(registry->mEntities, entity);
+ecs::RegisterComponentToEntity(registry->mComponents ,entity, component);
 ```
 
 ### Registering Systems
@@ -90,32 +104,44 @@ registry.RegisterComponentToEntity(entity, component);
 To register a system, follow these steps:
 
 ```cpp
-#include "ECSRegistry.h"
+#include "ecs.hpp"
 #include "YourSystem.h" // Replace with your system class header
 
-ecs::ECSRegistry registry;
-YourSystem* system = new YourSystem();
-registry.RegisterSystem(system);
-
+ecs::RegisterSystem(registry->mSystems, new YourSystem(1, 0));
 ```
 
 ### Using ECSRegistry Methods
 
 Here are some examples of how to use methods provided by ECSRegistry:
 
+## RegisterEntity 
+Method to register an entity in the entity vector.
 ```cpp
-
 ecs::ECSRegistry registry;
+ecs::Entity* entity = new ecs::Entity();
+ecs::RegisterEntity(registry->mEntities, entity);
+```
 
-// Get all entities with a HealthComponent
-std::vector<HealthComponent*> entitiesWithHealth = registry.GetEntitiesWithComponent<HealthComponent>();
+## RemoveEntity  
+Method to remove an entity from the entity vector.
+```cpp
+ecs::Entity* entityToRemove = // get the entity you want to remove
+ecs::RemoveEntity(registry->mEntities, entityToRemove);
+```
 
-// Get the WeaponComponent for a specific player entity
-WeaponComponent* weaponComponent = registry.GetComponentForEntity<WeaponComponent>(playerEntity);
+## RemoveComponentFromEntity   
+ Method to remove a component from an entity in the component map.
+```cpp
+ecs::Entity* entity = // get the entity from which you want to remove the component
+Component* component = // get the component you want to remove
+ecs::RemoveComponentFromEntity(registry->mComponents, entity, component);
+```
 
-// Get all components of a specific type
-std::vector<RendererComponent*> allComponents = registry.GetAllComponent<RendererComponent>();
-
+## RegisterSystem 
+ Method to register a system in the system vector.
+```cpp
+YourSystem* system = new YourSystem(); // Replace YourSystem with the desired system
+ecs::RegisterSystem(registry->mSystems, system);
 ```
 
 ### License
