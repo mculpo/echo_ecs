@@ -12,7 +12,7 @@ This is a straightforward and accessible C++ Entity Component System (ECS) libra
   - [Creating Entities](#creating-entities)
   - [Attaching Components](#attaching-components)
   - [Registering Systems](#registering-systems)
-  - [Using ECSRegistry Methods](#using-ecsregistry-methods)
+  - [Using Methods](#using-methods)
 - [License](#license)
 
 ## Introduction
@@ -110,39 +110,21 @@ To register a system, follow these steps:
 ecs::RegisterSystem(registry->mSystems, new YourSystem(1, 0));
 ```
 
-### Using ECSRegistry Methods
+### Using Methods
 
 Here are some examples of how to use methods provided by ECSRegistry:
 
-## RegisterEntity 
-Method to register an entity in the entity vector.
+#### RemoveSystem  
+ Method to reserve capacity for a vector.
 ```cpp
-ecs::ECSRegistry registry;
-ecs::Entity* entity = new ecs::Entity();
-ecs::RegisterEntity(registry->mEntities, entity);
+ecs::ECSRegistry* registry = new ecs::ECSRegistry;
+ecs::ReserveVectorCapacity(registry->mEntities, 100);
 ```
-
-## RemoveEntity  
-Method to remove an entity from the entity vector.
+#### ReserveMapCapacity  
+ Method to reserve capacity for a map of vectors. 
 ```cpp
-ecs::Entity* entityToRemove = // get the entity you want to remove
-ecs::RemoveEntity(registry->mEntities, entityToRemove);
+ecs::ECSRegistry* registry = new ecs::ECSRegistry;
+ecs::ReserveMapCapacity<TransformComponent>(registry->mComponents, 100);
 ```
-
-## RemoveComponentFromEntity   
- Method to remove a component from an entity in the component map.
-```cpp
-ecs::Entity* entity = // get the entity from which you want to remove the component
-Component* component = // get the component you want to remove
-ecs::RemoveComponentFromEntity(registry->mComponents, entity, component);
-```
-
-## RegisterSystem 
- Method to register a system in the system vector.
-```cpp
-YourSystem* system = new YourSystem(); // Replace YourSystem with the desired system
-ecs::RegisterSystem(registry->mSystems, system);
-```
-
 ### License
 This project is licensed under the Apache-2.0 license.
