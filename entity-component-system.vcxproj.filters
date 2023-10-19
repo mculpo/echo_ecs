@@ -18,15 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\System.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="test\Application.cpp">
       <Filter>test</Filter>
     </ClCompile>
@@ -35,21 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\ECSRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test\TransformSystem.h">
       <Filter>test</Filter>
     </ClInclude>
@@ -57,9 +33,6 @@
       <Filter>test</Filter>
     </ClInclude>
     <ClInclude Include="test\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\PhysicComponent.h">
@@ -74,7 +47,7 @@
     <ClInclude Include="test\RendererSystem.h">
       <Filter>test</Filter>
     </ClInclude>
-    <ClInclude Include="header\ECSRegistryManager.h">
+    <ClInclude Include="ecs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

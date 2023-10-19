@@ -1,4 +1,4 @@
-#include <header/Component.h>
+#include <ecs.hpp>
 #pragma once
 class TransformComponent : public ecs::Component {
 public:

@@ -46,7 +46,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -134,18 +134,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="test\Application.cpp" />
-    <ClCompile Include="src\Component.cpp" />
-    <ClCompile Include="src\Entity.cpp" />
-    <ClCompile Include="src\System.cpp" />
     <ClCompile Include="test\RendererComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\Component.h" />
-    <ClInclude Include="header\Core.h" />
-    <ClInclude Include="header\ECSRegistry.h" />
-    <ClInclude Include="header\ECSRegistryManager.h" />
-    <ClInclude Include="header\Entity.h" />
-    <ClInclude Include="header\Timer.h" />
+    <ClInclude Include="ecs.hpp" />
     <ClInclude Include="test\GameObject.h" />
     <ClInclude Include="test\PhysicComponent.h" />
     <ClInclude Include="test\PhysicSystem.h" />
@@ -153,7 +145,6 @@
     <ClInclude Include="test\RendererSystem.h" />
     <ClInclude Include="test\TransformComponent.h" />
     <ClInclude Include="test\TransformSystem.h" />
-    <ClInclude Include="header\System.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

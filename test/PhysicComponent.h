@@ -1,4 +1,4 @@
-#include <header/Component.h>
+#include <ecs.hpp>
 #pragma once
 class PhysicComponent : public ecs::Component {
 public:
@@ -9,6 +9,7 @@ public:
 	~PhysicComponent() {};
 	virtual void Initialize() override
 	{
+		//..implementação
 	}
 
 	virtual void Execute() override

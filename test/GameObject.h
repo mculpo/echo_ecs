@@ -1,4 +1,4 @@
-#include <header/Entity.h>
+#include <ecs.hpp>
 #pragma once
 
 class GameObject : public ecs::Entity {
