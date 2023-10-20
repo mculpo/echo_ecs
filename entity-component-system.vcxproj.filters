@@ -26,28 +26,28 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test\TransformSystem.h">
-      <Filter>test</Filter>
+    <ClInclude Include="ecs.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\TransformComponent.h">
-      <Filter>test</Filter>
+    <ClInclude Include="test\TransformSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\PhysicComponent.h">
-      <Filter>test</Filter>
-    </ClInclude>
-    <ClInclude Include="test\RendererComponent.h">
-      <Filter>test</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\PhysicSystem.h">
-      <Filter>test</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test\RendererComponent.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\RendererSystem.h">
-      <Filter>test</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ecs.hpp">
+    <ClInclude Include="test\TransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
