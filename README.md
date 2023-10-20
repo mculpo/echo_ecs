@@ -107,6 +107,7 @@ To register a system, follow these steps:
 #include "ecs.hpp"
 #include "YourSystem.h" // Replace with your system class header
 
+ecs::ECSRegistry* registry = new ecs::ECSRegistry;
 ecs::RegisterSystem(registry->mSystems, new YourSystem(1, 0));
 ```
 
