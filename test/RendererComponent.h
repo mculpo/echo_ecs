@@ -1,4 +1,4 @@
-#include <ecs.hpp>
+#include <ecs/ecs.hpp>
 #pragma once
 class RendererComponent : public ecs::Component {
 public:

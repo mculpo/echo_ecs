@@ -1,6 +1,6 @@
 # Entity Component System (ECS) Library (Simple and Accessible)
 
-This is a straightforward and accessible C++ Entity Component System (ECS) library that provides an uncomplicated way to manage game entities, components, and systems. ECS is a widely-used design pattern in game development that simplifies the organization of game objects' data and logic, making it ideal for both beginners and experienced developers, it ECS don't use Data Oriented.
+This is a straightforward and accessible C++ Entity Component System (ECS) library that provides an uncomplicated way to manage game entities, components, and systems. ECS is a widely-used design pattern in game development that simplifies the organization of game objects' data and logic, making it ideal for both beginners and experienced developers.
 
 ## Contents
 
@@ -64,9 +64,9 @@ The code inside to ECSRegistry
 ```cpp
 	class ECSRegistry {
 	public:
-		std::vector<Entity*> mEntities;
-		std::unordered_map<size_t, std::vector<Component*>> mComponents;
-		std::vector<System*> mSystems;
+		std::vector<Entity> mEntities;
+		std::unordered_map<size_t, std::vector<Component>> mComponents;
+		std::vector<System> mSystems;
 	};
 ```
 
@@ -79,6 +79,9 @@ To create an entity, follow these steps:
 
 ecs::ECSRegistry* registry = new ecs::ECSRegistry;
 ecs::Entity* entity = new ecs::Entity();
+ecs::RegisterEntity(registry->mEntities, *entity);
+//or
+ecs::Entity entity;
 ecs::RegisterEntity(registry->mEntities, entity);
 
 ```

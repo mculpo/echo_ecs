@@ -1,4 +1,4 @@
-#include <ecs.hpp>
+#include <ecs/ecs.hpp>
 #pragma once
 
 class GameObject : public ecs::Entity {
@@ -13,4 +13,7 @@ public:
 	virtual void Execute() override {
 
 	}
+	String s;
+	float f;
+	int i;
 };

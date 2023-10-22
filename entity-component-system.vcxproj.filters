@@ -21,12 +21,9 @@
     <ClCompile Include="test\Application.cpp">
       <Filter>test</Filter>
     </ClCompile>
-    <ClCompile Include="test\RendererComponent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ecs.hpp">
+    <ClInclude Include="ecs\ecs.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test\TransformSystem.h">

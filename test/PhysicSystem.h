@@ -1,5 +1,5 @@
 #pragma once
-#include <ecs.hpp>
+#include <ecs/ecs.hpp>
 #include <test/PhysicComponent.h>
 class PhysicSystem : public ecs::System {
 public:

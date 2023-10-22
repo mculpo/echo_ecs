@@ -1,5 +1,5 @@
 #pragma once
-#include <ecs.hpp>
+#include <ecs/ecs.hpp>
 #include <test/TransformComponent.h>
 class TransformSystem : public ecs::System {
 public:

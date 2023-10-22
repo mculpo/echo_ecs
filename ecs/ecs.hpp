@@ -120,10 +120,10 @@ namespace ecs {
 	System::~System()
 	{
 	}
-	inline void System::Initialize(ECSRegistry& p_Registry)
+	void System::Initialize(ECSRegistry& p_Registry)
 	{
 	}
-	inline void System::Update(float deltaTime)
+	void System::Update(float deltaTime)
 	{
 	}
 	bool System::operator==(const System& p_System)
@@ -148,11 +148,6 @@ namespace ecs {
 #ifndef ECS_REGISTRY_MANAGER
 #define ECS_REGISTRY_MANAGER
 
-	template <typename T>
-	inline std::vector<T> CreateArray(size_t pCapacity) {
-		std::vector<T> components(pCapacity, nullptr);
-		return components;
-	}
 
 	void RegisterEntity(std::vector<Entity>& pVector, Entity& pEntity) {
 		pVector.push_back(pEntity);
@@ -179,15 +174,28 @@ namespace ecs {
 		}
 	}
 
-	template <typename ComponentType, typename T>
+	template <typename Type, typename T>
 	inline void ReserveVectorCapacity(std::vector<T>& p_Vector, size_t pCapacity) {
-		p_Vector = CreateArray<ComponentType>(pCapacity);
+		size_t c_bytes = pCapacity * sizeof(Type);
+		size_t new_capacity = c_bytes / sizeof(T);
+		if (c_bytes % sizeof(T) != 0) {
+			new_capacity++; // Incrementa se houver resto na divisão
+		}
+		p_Vector.reserve(new_capacity);
+		//std::cout << "Capacidade T " << pCapacity * sizeof(T) << " bytes" << std::endl;
+		//std::cout << "Capacidade Type " << pCapacity * sizeof(Type) << " bytes" << std::endl;
+		//std::cout << "Capacidade armazenada atual - " << new_capacity * sizeof(T) << " bytes" << std::endl;
 	}
 
 	template <typename ComponentType, typename Key, typename T>
 	inline void ReserveMapCapacity(std::unordered_map<Key, std::vector<T>>& p_Map, size_t pCapacity) {
 		Key componentType = typeid(ComponentType).hash_code();
-		p_Map[componentType] = CreateArray<ComponentType>(pCapacity);
+		size_t c_bytes = pCapacity * sizeof(ComponentType);
+		size_t new_capacity = c_bytes / sizeof(T);
+		if (c_bytes % sizeof(T) != 0) {
+			new_capacity++; // Incrementa se houver resto na divisão
+		}
+		p_Map[componentType].reserve(new_capacity);
 	}
 
 	template <typename T>

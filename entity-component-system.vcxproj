@@ -134,10 +134,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="test\Application.cpp" />
-    <ClCompile Include="test\RendererComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ecs.hpp" />
+    <ClInclude Include="ecs\ecs.hpp" />
     <ClInclude Include="test\GameObject.h" />
     <ClInclude Include="test\PhysicComponent.h" />
     <ClInclude Include="test\PhysicSystem.h" />

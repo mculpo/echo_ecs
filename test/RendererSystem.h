@@ -1,5 +1,5 @@
 #pragma once
-#include <ecs.hpp>
+#include <ecs/ecs.hpp>
 #include <test/RendererComponent.h>
 class RendererSystem : public ecs::System {
 public:
