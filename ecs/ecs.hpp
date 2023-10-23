@@ -22,11 +22,11 @@ namespace ecs {
 		virtual void Execute();
 	};
 
-	inline void ecs::IFuncBase::Initialize()
+	void ecs::IFuncBase::Initialize()
 	{
 	}
 
-	inline void ecs::IFuncBase::Execute()
+	void ecs::IFuncBase::Execute()
 	{
 	}
 #endif //ECS_FUNC_BASE

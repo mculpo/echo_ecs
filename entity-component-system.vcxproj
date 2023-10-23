@@ -136,6 +136,7 @@
     <ClCompile Include="test\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ecs\array.hpp" />
     <ClInclude Include="ecs\ecs.hpp" />
     <ClInclude Include="test\GameObject.h" />
     <ClInclude Include="test\PhysicComponent.h" />

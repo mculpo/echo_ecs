@@ -1,4 +1,5 @@
 #include <ecs/ecs.hpp>
+#include <ecs/array.hpp>
 #include <test/TransformSystem.h>
 #include <test/RendererSystem.h>
 #include <test/PhysicSystem.h>
@@ -7,6 +8,7 @@
 #include <test/RendererComponent.h>
 #include <test/PhysicComponent.h>
 
+/*
 #define total_obj 1000
 #define tick_loop 30
 
@@ -52,10 +54,11 @@ void ReorganizeMemory() {
 	}
 	delete registry;
 }
+*/
 
 int main() {
-	
-	ReorganizeMemory();
+	Array<ecs::Entity> mEntity(100);
+	//ReorganizeMemory();
 
 	return 0;
 }
