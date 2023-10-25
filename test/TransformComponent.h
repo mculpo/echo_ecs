@@ -2,9 +2,10 @@
 #pragma once
 class TransformComponent : public ecs::Component {
 public:
-	TransformComponent(uint32_t p_ID, String p_Name) : Component(p_ID) , m_Name(p_Name) {
-		x = 10;
-		y = 5;
+	TransformComponent(uint32_t p_ID, String pName, float px, float py) : Component(p_ID) {
+		x = px;
+		y = py;
+		mName = pName;
 	}
 	~TransformComponent() {};
 
@@ -13,9 +14,8 @@ public:
 		
 	}
 	virtual void Execute() override {
-		x++;
-		y = x * y * y;
-		equation = (x + y) * 2 / 3;
+		/*std::cout << mName << std::endl;
+		std::cout << x << "-" << y << std::endl << std::endl;*/
 	}
 
 	float GetEquation() {
@@ -23,7 +23,7 @@ public:
 	}
 
 private:
-	String m_Name;
+	String mName;
 	float x;
 	float y;
 	float equation;

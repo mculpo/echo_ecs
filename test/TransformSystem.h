@@ -10,10 +10,7 @@ public:
 
 	virtual void Initialize(ecs::ECSRegistry& p_Registry) override
 	{
-		auto _RendererComponents = ecs::GetAllComponents<TransformComponent>(p_Registry.mComponents);
-		for (auto& renderer : _RendererComponents) {
-			m_transformComponents.push_back(renderer);
-		}
+		m_transformComponents = ecs::GetAllComponents<TransformComponent>(p_Registry.mComponents);
 	}
 	virtual void Update(float deltaTime) override
 	{

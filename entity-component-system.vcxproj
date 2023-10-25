@@ -136,13 +136,8 @@
     <ClCompile Include="test\Application.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ecs\array.hpp" />
     <ClInclude Include="ecs\ecs.hpp" />
     <ClInclude Include="test\GameObject.h" />
-    <ClInclude Include="test\PhysicComponent.h" />
-    <ClInclude Include="test\PhysicSystem.h" />
-    <ClInclude Include="test\RendererComponent.h" />
-    <ClInclude Include="test\RendererSystem.h" />
     <ClInclude Include="test\TransformComponent.h" />
     <ClInclude Include="test\TransformSystem.h" />
   </ItemGroup>

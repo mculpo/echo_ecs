@@ -32,22 +32,7 @@
     <ClInclude Include="test\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test\PhysicComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test\PhysicSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test\RendererComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test\RendererSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test\TransformComponent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ecs\array.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -21,14 +21,8 @@ namespace ecs {
 		virtual void Initialize();
 		virtual void Execute();
 	};
-
-	void ecs::IFuncBase::Initialize()
-	{
-	}
-
-	void ecs::IFuncBase::Execute()
-	{
-	}
+	void IFuncBase::Initialize() {};
+	void IFuncBase::Execute() {};
 #endif //ECS_FUNC_BASE
 
 #ifndef ECS_IBASE
@@ -40,12 +34,8 @@ namespace ecs {
 		~IBase();
 	};
 
-	IBase::IBase(uint32_t p_ID) : mID(p_ID)
-	{
-	}
-	IBase::~IBase()
-	{
-	}
+	IBase::IBase(uint32_t p_ID) : mID(p_ID){}
+	IBase::~IBase(){}
 #endif // !CLASS_IBASE
 
 #ifndef ECS_ENTITY
@@ -86,11 +76,8 @@ namespace ecs {
 		bool operator==(const Component& p_Other) const;
 	};
 
-	Component::Component(uint32_t p_ID) : mEntity(nullptr), IBase(p_ID) {
-	}
-	Component::~Component()
-	{
-	}
+	Component::Component(uint32_t p_ID) : mEntity(nullptr), IBase(p_ID) {}
+	Component::~Component(){}
 	bool Component::operator==(const Component& p_Other) const
 	{
 		return mID == p_Other.mID;
@@ -114,127 +101,114 @@ namespace ecs {
 		bool operator==(const System& p_System);
 	};
 
-	System::System(uint32_t p_ID, uint32_t p_Priority) : IBase(p_ID), mPriority(p_Priority)
-	{
-	}
-	System::~System()
-	{
-	}
-	void System::Initialize(ECSRegistry& p_Registry)
-	{
-	}
-	void System::Update(float deltaTime)
-	{
-	}
+	inline void System::Initialize(ECSRegistry& p_Registry) {}
+	inline void System::Update(float deltaTime) {}
+
+	System::System(uint32_t p_ID, uint32_t p_Priority) : IBase(p_ID), mPriority(p_Priority){}
+	System::~System(){}
+
 	bool System::operator==(const System& p_System)
 	{
 		return mID == p_System.mID;
 	}
 #endif // !ECS_SYSTEM
 
+
+#ifndef ECS_ARRAYS
+#define ECS_ARRAYS
+	template <typename T>
+	struct ecs_array {
+		std::vector<T> array;
+		std::vector<T*> ptr;
+	};
+
+#endif // !ECS_ARRAYS
+
 #ifndef ECS_REGISTRY
 #define ECS_REGISTRY
 	class Entity;
 	class Component;
 	class System;
-	class ECSRegistry {
-	public:
-		std::vector<Entity> mEntities;
-		std::unordered_map<size_t, std::vector<Component>> mComponents;
-		std::vector<System> mSystems;
+	struct ECSRegistry {
+		ecs_array<Entity> mEntities;
+		std::unordered_map<size_t, ecs_array<Component>> mComponents;
+		ecs_array<System> mSystems;
 	};
 #endif // !ECS_REGISTRY
 
 #ifndef ECS_REGISTRY_MANAGER
 #define ECS_REGISTRY_MANAGER
 
-
-	void RegisterEntity(std::vector<Entity>& pVector, Entity& pEntity) {
-		pVector.push_back(pEntity);
+	void RegisterEntity(ecs_array<Entity>& pVector, Entity* pEntity) {
+		pVector.array.push_back(*pEntity);
+		pVector.ptr.push_back(pEntity);
 	}
 
-	void RemoveEntity(std::vector<Entity>& pVector, Entity& pEntity)
+	void RemoveEntity(ecs_array<Entity>& pVector, Entity* pEntity)
 	{
-		auto it = std::find(pVector.begin(), pVector.end(), pEntity);
-		if (it != pVector.end()) {
-			pVector.erase(it);
+		for (size_t i = 0; i < pVector.array.size(); i++) {
+			if (pVector.array[i] == *pEntity) {
+				pVector.array.erase(pVector.array.begin() + i);
+				pVector.ptr.erase(pVector.ptr.begin() + i);
+				break;
+			}
 		}
 	}
 
-	void RegisterSystem(std::vector<System>& pSystems, System& pSystem)
+	void RegisterSystem(ecs_array<System>& pSystems, System* pSystem)
 	{
-		pSystems.push_back(pSystem);
+		pSystems.array.push_back(*pSystem);
+		pSystems.ptr.push_back(pSystem);
 	}
 
-	void RemoveSystem(std::vector<System>& pSystems, System& pSystem)
+	void RemoveSystem(ecs_array<System>& pSystems, System* pSystem)
 	{
-		auto it_system = std::find(pSystems.begin(), pSystems.end(), pSystem);
-		if (it_system != pSystems.end()) {
-			pSystems.erase(it_system);
+		for (size_t i = 0; i < pSystems.array.size(); i++) {
+			if (pSystems.array[i] == *pSystem) {
+				pSystems.array.erase(pSystems.array.begin() + i);
+				pSystems.ptr.erase(pSystems.ptr.begin() + i);
+				break;
+			}
 		}
 	}
 
 	template <typename Type, typename T>
-	inline void ReserveVectorCapacity(std::vector<T>& p_Vector, size_t pCapacity) {
+	inline void ReserveVectorCapacity(ecs_array<T>& pVector, size_t pCapacity) {
 		size_t c_bytes = pCapacity * sizeof(Type);
 		size_t new_capacity = c_bytes / sizeof(T);
 		if (c_bytes % sizeof(T) != 0) {
 			new_capacity++; // Incrementa se houver resto na divisão
 		}
-		p_Vector.reserve(new_capacity);
-		//std::cout << "Capacidade T " << pCapacity * sizeof(T) << " bytes" << std::endl;
-		//std::cout << "Capacidade Type " << pCapacity * sizeof(Type) << " bytes" << std::endl;
-		//std::cout << "Capacidade armazenada atual - " << new_capacity * sizeof(T) << " bytes" << std::endl;
+		pVector.array.reserve(new_capacity);
+		pVector.ptr.reserve(pCapacity);
 	}
 
-	template <typename ComponentType, typename Key, typename T>
-	inline void ReserveMapCapacity(std::unordered_map<Key, std::vector<T>>& p_Map, size_t pCapacity) {
-		Key componentType = typeid(ComponentType).hash_code();
+	template <typename ComponentType, typename T>
+	inline void ReserveMapCapacity(std::unordered_map<size_t, ecs_array<T>>& pMap, size_t pCapacity) {
+		size_t componentType = typeid(ComponentType).hash_code();
 		size_t c_bytes = pCapacity * sizeof(ComponentType);
 		size_t new_capacity = c_bytes / sizeof(T);
 		if (c_bytes % sizeof(T) != 0) {
 			new_capacity++; // Incrementa se houver resto na divisão
 		}
-		p_Map[componentType].reserve(new_capacity);
-	}
-
-	template <typename T>
-	inline void ReorganizeMemoryLayout(T& p_Vector) {
-		std::vector<T> compactedVector;
-		compactedVector.reserve(p_Vector.size());
-
-		for (const T& item : p_Vector) {
-			compactedVector.push_back(item);
-		}
-		p_Vector = compactedVector;
-	}
-
-	template <typename Key, typename T>
-	inline void ReorganizeMemoryLayout(std::unordered_map<Key, std::vector<T>>& p_Map) {
-		for (auto& componentPair : p_Map) {
-			std::vector<T>& components = componentPair.second;
-			std::vector<T> newLayoutComponents;
-			newLayoutComponents.reserve(components.size());
-			for (T& component : components) {
-				newLayoutComponents.push_back(component);
-			}
-			components = newLayoutComponents;
-		}
+		pMap[componentType].array.reserve(new_capacity);
+		pMap[componentType].ptr.reserve(pCapacity);
 	}
 
 	template <typename ComponentType>
-	inline void RegisterComponentToEntity(std::unordered_map<size_t, std::vector<Component>>& pComponents, Entity& pEntity, Component& pComponent) {
+	inline void RegisterComponentToEntity(std::unordered_map<size_t, ecs_array<Component>>& pComponents, Entity* pEntity, Component* pComponent) {
 		static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 
-		ComponentType* _component = dynamic_cast<ComponentType*>(&pComponent);
-		_component->mEntity = &pEntity;
+		ComponentType* _component = dynamic_cast<ComponentType*>(pComponent);
+		_component->mEntity = pEntity;
 
 		size_t componentType = typeid(ComponentType).hash_code();
-		pComponents[componentType].push_back(pComponent);
+		pComponents[componentType].array.push_back(*_component);
+		pComponents[componentType].ptr.push_back(_component);
 	}
 
-	template<typename ComponentType>
-	inline _NODISCARD std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, std::vector<Component>>& pComponents) {
+	/*template<typename ComponentType>
+	 std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
 		static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
 
 		size_t componentType = typeid(ComponentType).hash_code();
@@ -242,10 +216,53 @@ namespace ecs {
 
 		if (it != pComponents.end()) {
 			std::vector<ComponentType*> result;
-			for (auto component : it->second) {
-				ComponentType* castedComponent = dynamic_cast<ComponentType*>(&component);
+			for (auto component : it->second.ptr) {
+				ComponentType* castedComponent = dynamic_cast<ComponentType*>(component);
 				if (castedComponent) {
 					result.push_back(castedComponent);
+				}
+			}
+			return result;
+		}
+
+		return std::vector<ComponentType*>();
+	}*/
+
+	//template<typename ComponentType>
+	//inline _NODISCARD std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
+	//	static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
+
+	//	size_t componentType = typeid(ComponentType).hash_code();
+	//	auto it = pComponents.find(componentType);
+
+	//	if (it != pComponents.end()) {
+	//		// Converta os ponteiros do vetor ptr para ComponentType*
+	//		std::vector<ComponentType*> result;
+	//		for (Component* component : it->second.ptr) {
+	//			/*ComponentType* derivedComponent = static_cast<ComponentType*>(component);
+	//			if (derivedComponent) {
+	//				result.push_back(derivedComponent);
+	//			}*/
+	//			result.push_back(static_cast<ComponentType*>(component));
+	//		}
+	//		return result;
+	//	}
+
+	//	return std::vector<ComponentType*>();
+	//}
+
+	template<typename ComponentType>
+	std::vector<ComponentType*> GetAllComponents(std::unordered_map<size_t, ecs_array<Component>>& pComponents) {
+		static_assert(std::is_base_of<Component, ComponentType>::value, "ComponentType must be derived from Component");
+		size_t componentType = typeid(ComponentType).hash_code();
+		auto it = pComponents.find(componentType);
+
+		if (it != pComponents.end()) {
+			std::vector<ComponentType*> result;
+			for (Component* component : it->second.ptr) {
+				ComponentType* derivedComponent = static_cast<ComponentType*>(component);
+				if (derivedComponent) {
+					result.push_back(derivedComponent);
 				}
 			}
 			return result;
@@ -256,15 +273,15 @@ namespace ecs {
 
 	void InitializeSystem(ECSRegistry& p_Registry)
 	{
-		for (auto& system : p_Registry.mSystems) {
-			system.Initialize(p_Registry);
+		for (auto system : p_Registry.mSystems.ptr) {
+			system->Initialize(p_Registry);
 		}
 	}
 
-	void UpdateSystem(ECSRegistry& p_Registry, float deltaTime)
+	void UpdateSystem(ECSRegistry* p_Registry, float deltaTime)
 	{
-		for (auto& system : p_Registry.mSystems) {
-			system.Update(deltaTime);
+		for (auto system : p_Registry->mSystems.ptr) {
+			system->Update(deltaTime);
 		}
 	}
 #endif // !ECS_REGISTRY
