@@ -305,7 +305,7 @@ namespace ecs {
 
 		static double GetSecondsDuration() {
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-			return static_cast<double>(duration.count()) / 1000.0; // Converter para segundos
+			return static_cast<double>(duration.count()) / 60.0; // Converter para segundos
 		}
 
 	private:

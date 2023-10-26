@@ -13,7 +13,4 @@ public:
 	virtual void Execute() override {
 
 	}
-	String s;
-	float f;
-	int i;
 };
