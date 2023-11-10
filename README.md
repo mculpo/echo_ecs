@@ -1,4 +1,4 @@
-# Entity Component System (ECS) Library (Simple and Accessible)
+# Echo ECS - Echo Entity Component System (Echo ECS) Library (Simple and Accessible)
 
 This is a straightforward and accessible C++ Entity Component System (ECS) library that provides an uncomplicated way to manage game entities, components, and systems. ECS is a widely-used design pattern in game development that simplifies the organization of game objects' data and logic, making it ideal for both beginners and experienced developers.
 
